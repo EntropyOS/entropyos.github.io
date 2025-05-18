@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="28" fill="#000" stroke="#39ff14" stroke-width="4"/>
+  <circle cx="32" cy="32" r="24" fill="#111"/>
+  <text x="50%" y="54%" text-anchor="middle" fill="#39ff14" font-family="'VT323', 'Fira Mono', 'Consolas', monospace" font-size="32" dy=".1em">&gt;</text>
+</svg> 
