@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EntropyOS</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+    .eye-container {
+      position: relative;
+      width: 480px;
+      height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .eye-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 0 36px #39ff1455);
+    }
+    .cyber-glow {
+      filter: drop-shadow(0 0 12px #39ff14) drop-shadow(0 0 32px #39ff1488);
+    }
+    .scan-line {
+      animation: scan-move 2.5s linear infinite;
+    }
+    @keyframes scan-move {
+      0% { opacity: 0; transform: translateY(0); }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(160px); }
+    }
+    .crt {
+      pointer-events: none;
+      position: absolute;
+      left: 0; top: 0; width: 100%; height: 100%;
+      z-index: 10;
+      mix-blend-mode: screen;
+      opacity: 0.25;
+    }
+    .title {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      color: #39ff14;
+      font-family: 'VT323', 'Fira Mono', 'Consolas', monospace;
+      font-size: 2.1rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #39ff14, 0 0 2px #fff2;
+      filter: drop-shadow(0 0 2px #39ff14);
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="eye-container">
+    <svg class="eye-svg" viewBox="0 0 480 480">
+      <!-- Eye white -->
+      <ellipse cx="240" cy="240" rx="180" ry="120" fill="#0a0" stroke="#39ff14" stroke-width="9" opacity="0.13"/>
+      <!-- Cyborg iris: concentric rings -->
+      <circle cx="240" cy="240" r="90" fill="none" stroke="#39ff14" stroke-width="3" opacity="0.3"/>
+      <circle cx="240" cy="240" r="108" fill="none" stroke="#39ff14" stroke-width="2.2" opacity="0.18"/>
+      <circle cx="240" cy="240" r="72" fill="none" stroke="#39ff14" stroke-width="3.5" opacity="0.18"/>
+      <!-- Circuit lines: thinner, shorter, right-angled, with nodes -->
+      <g stroke="#39ff14" stroke-width="1.7" opacity="0.22" fill="none">
+        <!-- Top left -->
+        <polyline points="180,180 135,180 135,135" />
+        <circle cx="135" cy="135" r="3" fill="#39ff14" opacity="0.5"/>
+        <!-- Top right -->
+        <polyline points="300,180 345,180 345,135" />
+        <circle cx="345" cy="135" r="3" fill="#39ff14" opacity="0.5"/>
+        <!-- Bottom left -->
+        <polyline points="180,300 135,300 135,345" />
+        <circle cx="135" cy="345" r="3" fill="#39ff14" opacity="0.5"/>
+        <!-- Bottom right -->
+        <polyline points="300,300 345,300 345,345" />
+        <circle cx="345" cy="345" r="3" fill="#39ff14" opacity="0.5"/>
+        <!-- Left mid -->
+        <polyline points="120,240 90,240 90,210" />
+        <circle cx="90" cy="210" r="3" fill="#39ff14" opacity="0.5"/>
+        <!-- Right mid -->
+        <polyline points="360,240 390,240 390,270" />
+        <circle cx="390" cy="270" r="3" fill="#39ff14" opacity="0.5"/>
+        
+        <!-- Additional lines for denser circuitry -->
+        <!-- Top center short -->
+        <polyline points="240,120 240,90" />
+        <circle cx="240" cy="90" r="2.5" fill="#39ff14" opacity="0.5"/>
+        <!-- Bottom center short -->
+        <polyline points="240,360 240,390" />
+        <circle cx="240" cy="390" r="2.5" fill="#39ff14" opacity="0.5"/>
+        <!-- Left upper -->
+        <polyline points="170,170 120,150 100,120" />
+        <circle cx="100" cy="120" r="2.2" fill="#39ff14" opacity="0.5"/>
+        <!-- Right upper -->
+        <polyline points="310,170 360,150 380,120" />
+        <circle cx="380" cy="120" r="2.2" fill="#39ff14" opacity="0.5"/>
+        <!-- Left lower -->
+        <polyline points="170,310 120,330 100,360" />
+        <circle cx="100" cy="360" r="2.2" fill="#39ff14" opacity="0.5"/>
+        <!-- Right lower -->
+        <polyline points="310,310 360,330 380,360" />
+        <circle cx="380" cy="360" r="2.2" fill="#39ff14" opacity="0.5"/>
+        <!-- Short horizontals -->
+        <polyline points="180,240 120,240" />
+        <circle cx="120" cy="240" r="2" fill="#39ff14" opacity="0.5"/>
+        <polyline points="300,240 360,240" />
+        <circle cx="360" cy="240" r="2" fill="#39ff14" opacity="0.5"/>
+        <!-- Short verticals -->
+        <polyline points="240,180 240,120" />
+        <circle cx="240" cy="120" r="2" fill="#39ff14" opacity="0.5"/>
+        <polyline points="240,300 240,360" />
+        <circle cx="240" cy="360" r="2" fill="#39ff14" opacity="0.5"/>
+      </g>
+      <!-- Iris -->
+      <circle id="iris" class="cyber-glow" cx="240" cy="240" r="72" fill="url(#cyberIris)" stroke="#39ff14" stroke-width="6"/>
+      <!-- Pupil -->
+      <circle id="pupil" class="cyber-glow" cx="240" cy="240" r="33" fill="#000" stroke="#39ff14" stroke-width="4.5"/>
+      <!-- Heart group (dynamic) -->
+      <g id="heart-group"></g>
+      <!-- Eye shine -->
+      <ellipse cx="210" cy="210" rx="18" ry="9" fill="#39ff14" opacity="0.5"/>
+      <!-- Lower shadow -->
+      <ellipse cx="255" cy="277" rx="45" ry="15" fill="#39ff14" opacity="0.08"/>
+      <!-- Decorative lines -->
+      <path d="M90,240 Q240,90 390,240" stroke="#39ff14" stroke-width="4" fill="none" opacity="0.13"/>
+      <path d="M90,240 Q240,390 390,240" stroke="#39ff14" stroke-width="4" fill="none" opacity="0.13"/>
+      <!-- Scan line -->
+      <rect x="120" y="120" width="240" height="9" fill="rgba(57,255,20,0.08)" rx="4.5" class="scan-line"/>
+      <defs>
+        <radialGradient id="cyberIris" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#39ff14" stop-opacity="0.9"/>
+          <stop offset="60%" stop-color="#39ff14" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="1"/>
+        </radialGradient>
+      </defs>
+    </svg>
+    <div class="title">EntropyOS</div>
+  </div>
+  <!-- CRT scanlines overlay: fills the whole window and looks more realistic -->
+  <div id="crt-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:100;mix-blend-mode:screen;">
+    <svg id="crt-svg" class="crt" width="100%" height="100%" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+      <defs>
+        <!-- Scanlines pattern -->
+        <pattern id="scanlines-full" width="4" height="8" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="4" height="2" fill="#39ff14" opacity="0.10" />
+        </pattern>
+        <!-- Vignette radial gradient -->
+        <radialGradient id="vignette" cx="50%" cy="50%" r="0.9">
+          <stop offset="80%" stop-color="#0000"/>
+          <stop offset="100%" stop-color="#000a"/>
+        </radialGradient>
+        <!-- Curvature filter -->
+        <filter id="crt-warp" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="1" result="warp"/>
+          <feDisplacementMap in2="warp" in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <!-- Scanlines -->
+      <rect x="0" y="0" width="1920" height="1080" fill="url(#scanlines-full)" filter="url(#crt-warp)" />
+      <!-- Vignette -->
+      <rect x="0" y="0" width="1920" height="1080" fill="url(#vignette)" />
+    </svg>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    const iris = document.getElementById('iris');
+    const pupil = document.getElementById('pupil');
+    const eyeCenter = { x: 240, y: 240 };
+    const irisMaxDist = 36; // max px iris can move from center
+    const pupilMaxDist = 52; // max px pupil can move from center
+
+    function getRelativeMousePos(e) {
+      const rect = document.querySelector('.eye-svg').getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      return { x, y };
+    }
+
+    function moveEye(mouse) {
+      // Vector from center to mouse
+      let dx = mouse.x - eyeCenter.x;
+      let dy = mouse.y - eyeCenter.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > 0) {
+        // Clamp iris and pupil movement
+        let irisDist = Math.min(dist, irisMaxDist);
+        let pupilDist = Math.min(dist, pupilMaxDist);
+        let angle = Math.atan2(dy, dx);
+        let irisX = eyeCenter.x + Math.cos(angle) * irisDist;
+        let irisY = eyeCenter.y + Math.sin(angle) * irisDist;
+        let pupilX = eyeCenter.x + Math.cos(angle) * pupilDist;
+        let pupilY = eyeCenter.y + Math.sin(angle) * pupilDist;
+        anime({
+          targets: iris,
+          cx: irisX,
+          cy: irisY,
+          duration: 400,
+          easing: 'easeOutQuad'
+        });
+        anime({
+          targets: pupil,
+          cx: pupilX,
+          cy: pupilY,
+          duration: 400,
+          easing: 'easeOutQuad'
+        });
+      }
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      const svgRect = document.querySelector('.eye-svg').getBoundingClientRect();
+      const margin = 300; // px
+      // Only react if mouse is within SVG area plus margin
+      if (
+        e.clientX >= svgRect.left - margin && e.clientX <= svgRect.right + margin &&
+        e.clientY >= svgRect.top - margin && e.clientY <= svgRect.bottom + margin
+      ) {
+        moveEye(getRelativeMousePos(e));
+      } else {
+        // Animate back to center
+        anime({ targets: iris, cx: eyeCenter.x, cy: eyeCenter.y, duration: 600, easing: 'easeOutExpo' });
+        anime({ targets: pupil, cx: eyeCenter.x, cy: eyeCenter.y, duration: 600, easing: 'easeOutExpo' });
+      }
+    });
+    // On resize, keep eye centered
+    window.addEventListener('resize', () => {
+      anime.set(iris, { cx: eyeCenter.x, cy: eyeCenter.y });
+      anime.set(pupil, { cx: eyeCenter.x, cy: eyeCenter.y });
+    });
+
+    // Make CRT SVG responsive to window size
+    function resizeCRT() {
+      const svg = document.getElementById('crt-svg');
+      if (svg) {
+        svg.setAttribute('width', window.innerWidth);
+        svg.setAttribute('height', window.innerHeight);
+        svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+        // Update scanlines and vignette rects
+        const rects = svg.querySelectorAll('rect');
+        rects.forEach(r => {
+          r.setAttribute('width', window.innerWidth);
+          r.setAttribute('height', window.innerHeight);
+        });
+      }
+    }
+    window.addEventListener('resize', resizeCRT);
+    window.addEventListener('DOMContentLoaded', resizeCRT);
+
+    let heartActive = false;
+    let heartTimeout = null;
+    let heartCircles = [];
+    const heartN = 24;
+    const heartR = 18;
+    function createHeartCircles() {
+      const group = document.getElementById('heart-group');
+      group.innerHTML = '';
+      heartCircles = [];
+      for (let i = 0; i < heartN; i++) {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('r', 0);
+        c.setAttribute('fill', 'red');
+        c.setAttribute('opacity', '0');
+        group.appendChild(c);
+        heartCircles.push(c);
+        anime({
+          targets: c,
+          r: 3.5,
+          opacity: 0.85,
+          delay: i * 30,
+          duration: 350,
+          easing: 'easeOutBack',
+        });
+      }
+    }
+    function updateHeartCircles() {
+      if (!heartActive) return;
+      const pupil = document.getElementById('pupil');
+      const cx = parseFloat(pupil.getAttribute('cx'));
+      const cy = parseFloat(pupil.getAttribute('cy'));
+      for (let i = 0; i < heartN; i++) {
+        const t = Math.PI - (i / (heartN-1)) * 2 * Math.PI;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+        if (heartCircles[i]) {
+          heartCircles[i].setAttribute('cx', cx + x * heartR/18);
+          heartCircles[i].setAttribute('cy', cy - y * heartR/18);
+        }
+      }
+      requestAnimationFrame(updateHeartCircles);
+    }
+    function showHeartInPupil() {
+      if (heartActive) return; // Prevent overlapping hearts
+      heartActive = true;
+      createHeartCircles();
+      updateHeartCircles();
+      heartTimeout = setTimeout(() => {
+        const group = document.getElementById('heart-group');
+        heartCircles.forEach((c, idx) => {
+          anime({
+            targets: c,
+            r: 0,
+            opacity: 0,
+            delay: idx * 15,
+            duration: 250,
+            easing: 'easeInBack',
+            complete: () => { if (idx === heartCircles.length-1) { group.innerHTML = ''; heartActive = false; } }
+          });
+        });
+      }, 1500);
+    }
+    document.addEventListener('click', showHeartInPupil);
+  </script>
+</body>
+</html>
